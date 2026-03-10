@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: workflow-engine
+  datasource:
+    url: jdbc:postgresql://localhost:5432/workflowdb
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
