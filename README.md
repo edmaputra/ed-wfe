@@ -21,14 +21,59 @@ A workflow engine requires strong consistency for workflow state transitions, re
 - Native JSONB support for flexible workflow context payloads.
 
 ## Project Scope (Current)
-This repository is currently scaffolded only.
-Business workflow orchestration logic will be added in a later phase.
+This repository currently provides core workflow definition management APIs.
+Additional orchestration and execution features will be added in later phases.
+
+## Implemented Features
+
+### Workflow Definitions API
+
+#### POST /definitions
+Create a new workflow definition.
+
+**Request:**
+```json
+{
+  "workflowKey": "approval_workflow",
+  "version": 1,
+  "name": "Approval Workflow v1",
+  "definitionJson": "{\"steps\": []}",
+  "active": true
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "id": 1,
+  "workflowKey": "approval_workflow",
+  "version": 1,
+  "name": "Approval Workflow v1",
+  "definitionJson": "{\"steps\": []}",
+  "active": true,
+  "createdAt": "2026-03-19T12:00:00",
+  "updatedAt": "2026-03-19T12:00:00"
+}
+```
+
+**Status Codes:**
+- `201 Created`: Workflow definition successfully created
+- `400 Bad Request`: Invalid request body or validation failed
+- `409 Conflict`: Workflow definition with the same key and version already exists
+
+**Validation Rules:**
+- `workflowKey`: Required, non-empty string
+- `version`: Required, positive integer
+- `name`: Required, non-empty string
+- `definitionJson`: Required, non-empty string (must be valid JSON)
+- `active`: Optional, defaults to true
+- Combination of `workflowKey` and `version` must be unique
 
 ## Local Infrastructure
 Use Podman Compose to start local dependencies:
 
 ```bash
-podman-compose up -d
+docker-compose up -d
 ```
 
 Services:
